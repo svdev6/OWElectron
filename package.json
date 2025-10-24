@@ -81,5 +81,8 @@
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
     "wrapper-webpack-plugin": "^2.1.0"
+  },
+  "dependencies": {
+    "discord-rpc": "^4.0.1"
   }
 }

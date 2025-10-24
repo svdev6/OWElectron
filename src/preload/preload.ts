@@ -57,4 +57,9 @@ contextBridge.exposeInMainWorld('overlay', {
   }
 });
 
+contextBridge.exposeInMainWorld('discord', {
+  setActivity: (activity: any) => ipcRenderer.invoke('presence:set', activity),
+  clearActivity: () => ipcRenderer.invoke('presence:clear'),
+});
+
 

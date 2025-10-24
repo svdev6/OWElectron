@@ -1,4 +1,9 @@
 console.log('renderer script');
+import { initPresenceFromGep } from "./presence-from-gep";
+import { initPresencePolling } from './presence-from-gep';
+
+initPresenceFromGep();
+initPresencePolling(2000);
 
 //@ts-ignore
 window.gep.onMessage(function(...args) {
