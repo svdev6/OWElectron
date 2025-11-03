@@ -82,9 +82,30 @@ const MAP_NAMES: Record<string, string> = {
   '3893': 'Aatlis',
 };
 
+const MAP_ICONS: Record<string, string> = {
+  '91': 'anubis',
+  '212': 'kings_row',
+  '475': 'volskaya',
+  '1207': 'nepal',
+  '1467': 'route_66',
+  '1634': 'lijiang',
+  '1672': 'practice_range',
+  '1677': 'eichenwalde',
+  '2018': 'busan',
+  '2161': 'rialto',
+  '2193': 'paris',
+  '3390': 'suravasa',
+  '3893': 'aatlis',
+};
+
 function mapName(v: string | undefined | null) {
   return v ? (MAP_NAMES[String(v)] ?? String(v)) : undefined;
 }
+
+function mapIcon(v: string | undefined | null) {
+  return v ? (MAP_ICONS[String(v)] ?? 'ow2') : 'ow2';
+}
+
 function modeLabel(gt?: string, qt?: string) {
   if (!gt) return 'Unknown mode';
   const g = gt.toUpperCase();
@@ -116,7 +137,7 @@ function pushPresence() {
     details: mapName(state.map) ? `On ${mapName(state.map)}` : `On ${state.map || 'Unknown map'}`,
     state: mode,
     startTimestamp: state.startedAt ?? Math.floor(Date.now() / 1000),
-    largeImageKey: 'ow2',
+    largeImageKey: mapIcon(state.map),
     largeImageText: 'Overwatch 2',
     instance: true
   };
