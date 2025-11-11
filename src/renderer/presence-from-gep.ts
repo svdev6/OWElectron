@@ -297,19 +297,6 @@ function mapIcon(v: string | undefined | null) {
   return v ? (MAP_ICONS[String(v)] ?? 'ow2') : 'ow2';
 }
 
-function modeLabel(gt?: string, qt?: string) {
-  if (!gt) return 'Unknown mode';
-  const g = gt.toUpperCase();
-  if (g === 'RANKED' && qt) return `Competitive : ${qt.replace(/_/g, ' ')}`;
-  if (g === 'UNRANKED'    && qt) return `Quick Play : ${qt.replace(/_/g, ' ')}`;
-  return g.charAt(0) + g.slice(1).toLowerCase();
-}
-function rankKey(rank?: string) {
-  if (!rank) return undefined;
-  const base = rank.toLowerCase().split(' ')[0];
-  return ['bronze','silver','gold','platinum','diamond','master','grandmaster','champion'].includes(base) ? base : undefined;
-}
-
 let lastJSON = '';
 let scheduled = false;
 function scheduleUpdate() {

@@ -1,11 +1,10 @@
 {
   "name": "ow-electron-packages-sample",
   "version": "22.3.13",
-  "description": "ow-electron package sample app",
+  "description": "Overwatch RPC",
   "main": "dist/browser/index.js",
   "author": {
-    "name": "overwolf",
-    "email": "overwolf@gmail.com"
+    "name": "Sonic"
   },
   "license": "MIT",
   "overwolf": {
@@ -21,13 +20,14 @@
     "overwolf": {
       "disableAdOptimization": false
     },
-    "productName": "owElectronpackageSample",
+    "productName": "OverwatchRPC",
     "directories": {
       "output": "build"
     },
     "files": [
       "dist/**/*",
       "*.js",
+      ".env",
       "*.html",
       "*.exe"
     ],
@@ -42,7 +42,6 @@
         }
       ],
       "artifactName": "${productName}-Setup-${version}.${ext}",
-      "publisherName": "Overwolf Ltd",
       "legalTrademarks": "Copyright 2023 Overwolf Ltd."
     },
     "nsis": {
@@ -57,6 +56,7 @@
     "build:dev": "yarn webpack --watch --mode=development",
     "build:start": "yarn run build && ow-electron . ",
     "start": "ow-electron .",
+    "dist": "npm run build && electron-builder --win nsis",
     "build:ow-electron": "ow-electron-builder --c.extraMetadata.name=GameEventsTester --publish=never"
   },
   "devDependencies": {
@@ -67,7 +67,10 @@
     "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "^18.11.18",
     "copy-webpack-plugin": "^11.0.0",
+    "discord-rpc": "^4.0.1",
+    "dotenv": "^17.2.3",
     "electron": "21.1.0",
+    "electron-builder": "^26.0.12",
     "html-webpack-plugin": "^5.5.0",
     "jest": "^29.3.1",
     "jest-environment-jsdom": "^29.3.1",
@@ -81,8 +84,5 @@
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
     "wrapper-webpack-plugin": "^2.1.0"
-  },
-  "dependencies": {
-    "discord-rpc": "^4.0.1"
   }
 }
