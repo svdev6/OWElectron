@@ -9,6 +9,7 @@
       <tr>
           <td class="span1"><button id ='setRequiredFeaturesBtn' class="btn">setRequiredFeatures</button></td>
           <td class="span1"><button id ='getInfoBtn' class="btn">getInfo</button></td>
+          <td class="span1"><button id ='toggleHeroStatsBtn' class="btn">Toggle Hero Stats</button></td>
           <td class="span1"><button id ='createOSR' class="btn">Create OSR</button></td>
           <td class="span1"><button id ='visibilityOSR' class="btn">Show all OSR</button></td>
           <td class="span1"><button id ='updateHotkey' class="btn">update Hotkey</button></td>
@@ -45,42 +46,3 @@
 </div>
 </div>
 <br>
-<div >
-  <div class="views" style="display: flex; gap: 24px;">
-    <div class="left-view">
-      <h2>Ad view:</h2>
-      <div style='width: 400px; height: 300px; border: 1px solid;background: transparent;'>
-        <owadview slotsize='400x300' cid='mainAd' />
-      </div>
-    </div>
-    <div class="left-view">
-      <h2>Input Exclusive:</h2>
-      <div style='width: 400px; height: 300px; border: 1px solid;background: transparent;'>
-        <label style="display: block; margin-bottom: 10px;">
-          Background Color
-          <input type="color" rgba value="#0c0c0c" id="colorPicker">
-        </label>
-         <label style="display: block; margin-bottom: 10px;">
-          <div>Opacity</div>
-          <input type="range" min="0.0" max="1.0" value="0.5" step="0.1" id="opacityRange"  onchange="changeOpacityValue(this)">
-          <input type="input" readonly value="0.5" id="opacityValue">
-        </label>
-        <label style="display: block; margin-bottom: 10px;">
-          <div>Animation Duration</div>
-          <input type="range" min="0" max="1000" value="100" step="10" id="animationDurationRange" onchange="animationDurationValue(this)">
-          <input type="input" readonly value="100" id="animationDuration">
-        </label>
-        <label style="display: block; margin-bottom: 10px;">
-          <div> Type </div>
-            <input type="radio" name="exclusiveType" value="native" checked="checked"> Native
-            <input type="radio" name="exclusiveType" value="customWindow"> As Window
-        </label>
-        <label style="display: block; margin-bottom: 10px;">
-          <div> hotkey Behavior </div>
-            <input type="radio" name="behavior" value="toggle" checked="checked"> toggle
-            <input type="radio" name="behavior" value="pressed"> pressed
-        </label>
-      </div>
-    </div>
-  </div>
-</div>

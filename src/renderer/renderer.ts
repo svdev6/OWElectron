@@ -1,6 +1,53 @@
 console.log('renderer script');
 import { initPresenceFromGep } from "./presence-from-gep";
 import { initPresencePolling } from './presence-from-gep';
+import { setHeroStatsEnabled } from "./presence-from-gep";
+import { getHeroStatsEnabled } from "./presence-from-gep";
+
+const toggleHeroStatsBtn = document.querySelector('#toggleHeroStatsBtn') as HTMLButtonElement;
+const LOG_MAX_LINES = 500;
+const LOG_BATCH_MS = 120;
+const LOG_TRUNCATE = 1000;
+
+const terminal = document.querySelector('#TerminalTextArea') as HTMLElement;
+
+let logBuffer: string[] = [];
+let renderPending = false;
+
+function pushLine(s: string) {
+  if (s.length > LOG_TRUNCATE) s = s.slice(0, LOG_TRUNCATE) + '…';
+  logBuffer.push(s);
+  if (logBuffer.length > LOG_MAX_LINES) logBuffer.splice(0, logBuffer.length - LOG_MAX_LINES);
+  scheduleRender();
+}
+
+function scheduleRender() {
+  if (renderPending) return;
+  renderPending = true;
+  setTimeout(() => {
+    renderPending = false;
+    terminal.textContent = logBuffer.join('\n');
+    terminal.scrollTop = terminal.scrollHeight;
+  }, LOG_BATCH_MS);
+}
+
+function safeJSON(x: any) {
+  try { return typeof x === 'string' ? x : JSON.stringify(x); }
+  catch { return String(x); }
+}
+
+function refreshToggleHeroStatsBtn() {
+  toggleHeroStatsBtn.textContent = getHeroStatsEnabled() ? 'Disable Hero Stats' : 'Enable Hero Stats';
+}
+
+refreshToggleHeroStatsBtn();
+
+toggleHeroStatsBtn.addEventListener('click', () => {
+  const next = !getHeroStatsEnabled();
+  setHeroStatsEnabled( next );
+  refreshToggleHeroStatsBtn();
+  addMessageToTerminal(next ? 'Hero Stats Enabled' : 'Hero Stats Disabled');
+});
 
 initPresenceFromGep();
 initPresencePolling(2000);
@@ -9,11 +56,8 @@ initPresencePolling(2000);
 window.gep.onMessage(function(...args) {
   console.info(...args);
 
-  let item = ''
-  args.forEach(arg => {
-    item = `${item}-${JSON.stringify(arg)}`;
-  })
-  addMessageToTerminal(item);
+  const line = args.map(safeJSON).join(' | ');
+  addMessageToTerminal(line);
 
 });
 
@@ -23,7 +67,8 @@ const btn = document.querySelector('#clearTerminalTextAreaBtn') as HTMLButtonEle
 btn.addEventListener('click', function(e) {
   var begin = new Date().getTime();
   const terminal = document.querySelector('#TerminalTextArea');
-  terminal.innerHTML = '';
+  logBuffer = [];
+  terminal.textContent = '';
 });
 
 const setRequiredBtn = document.querySelector('#setRequiredFeaturesBtn') as HTMLButtonElement;
@@ -85,10 +130,7 @@ updateHotkeyBtn.addEventListener('click', async function(e) {
 
 
 function addMessageToTerminal(message) {
-  const terminal = document.querySelector('#TerminalTextArea');
-  // $('#TerminalTextArea');
-  terminal.append(message + '\n');
-  terminal.scrollTop = terminal.scrollHeight;
+  pushLine(message);
 }
 
 export function sendExclusiveOptions() {
