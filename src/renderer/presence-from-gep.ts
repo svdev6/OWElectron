@@ -12,6 +12,13 @@ const GAME_MODE_MAP: Record<string, string> = {
   '64': 'Push',
   '109': 'Flashpoint',
   '224': 'Clash',
+  '232': 'Stadium: Payload Race',
+  '233': 'Stadium: Control',
+  '252': 'Stadium: Push',
+  '291': 'Stadium: Clash',
+  '335': 'Spirit Showdown: Escort',
+  '337': 'Spirit Showdown: Push',
+  '338': 'Spirit Showdown: Flashpoint',
 };
 
 function prettifyQueue(q?: string) {
@@ -41,6 +48,9 @@ function resolveModeLabel(gameType?: string, queueType?: string, gameModeId?: st
     }
     if (gt === 'PRACTICE') {
       return queueType ? 'Training' : 'Practice Range';
+    }
+    if (gt === 'ARCADE') {
+      return queueType ? `Arcade: In Match` : 'Arcade';
     }
     if (gt === 'CUSTOM_GAME') {
       return queueType ? `Custom Game: In Match` : 'Custom Game';
@@ -118,7 +128,21 @@ const MAP_NAMES: Record<string, string> = {
   '3762': 'Runasapi',
   '3893': 'Aatlis',
   '4439': 'Hanaoka',
-  '4448': 'Throne of Anubis'
+  '4448': 'Throne of Anubis',
+  '4695': 'Thames District',
+  "4702": "Place Lacroix",
+  "4704": "Redwood Dam",
+  "4731": "Ilios",
+  "4735": "Oasis Gardens",
+  "4778": "Arena Victoriae",
+  "4784": "Esperanca",
+  "4789": "Throne of Anubis",
+  "4790": "Hanaoka",
+  "4791": "Colosseo",
+  "4849": "Nepal Shrine",
+  "4949": "Samoa",
+  "4981": "Wuxing University",
+  "5000": "Busan Sanctuary"
 };
 
 const MAP_ICONS: Record<string, string> = {
@@ -156,24 +180,42 @@ const MAP_ICONS: Record<string, string> = {
   '3762': '1_runasapi',
   '3893': '1_aatlis',
   '4439': '1_hanaoka',
-  '4448': '1_throne-of-anubis'
+  '4448': '1_throne-of-anubis',
+  '4695': '1_thames-district',
+  "4702": "1_place-lacroix",
+  "4704": "1_redwood-dam",
+  "4731": "1_ilios",
+  "4735": "1_oasis",
+  "4778": "1_arena-victoriae",
+  "4784": "1_esperanca",
+  "4789": "1_throne-of-anubis",
+  "4790": "1_hanaoka",
+  "4791": "1_colosseo",
+  "4849": "1_nepal",
+  "4949": "1_samoa",
+  "4981": "1_wuxing-university",
+  "5000": "1_busan"
 };
 
 const HERO_ICONS: Record<string, string> = {
   'ANA': '0_ana',
+  'ANRAN': '0_anran',
   'ASHE': '0_ashe',
   'BAPTISTE': '0_baptiste',
   'BASTION': '0_bastion',
   'BRIGITTE': '0_brigitte',
   'CASSIDY': '0_cassidy',
+  'DOMINA': '0_domina',
   'DOOMFIST': '0_doomfist',
   'DVA': '0_dva',
   'ECHO': '0_echo',
+  'EMRE': '0_emre',
   'FREJA': '0_freja',
   'GENJI': '0_genji',
   'HANZO': '0_hanzo',
   'HAZARD': '0_hazard',
   'ILLARI' : '0_illari',
+  'JETPACKCAT': '0_jetpackcat',
   'JUNKERQUEEN': '0_junker-queen',
   'JUNKRAT': '0_junkrat',
   'JUNO': '0_juno',
@@ -182,6 +224,7 @@ const HERO_ICONS: Record<string, string> = {
   'MAUGA': '0_mauga',
   'MEI': '0_mei',
   'MERCY': '0_mercy',
+  'MIZUKI': '0_mizuki',
   'MOIRA': '0_moira',
   'ORISA': '0_orisa',
   'PHARAH': '0_pharah',
@@ -196,6 +239,7 @@ const HERO_ICONS: Record<string, string> = {
   'SYMMETRA': '0_symmetra',
   'TORBJORN': '0_torbjorn',
   'TRACER': '0_tracer',
+  'VENDETTA': '0_vendetta',
   'VENTURE': '0_venture',
   'WIDOWMAKER': '0_widowmaker',
   'WINSTON': '0_winston',
@@ -207,19 +251,23 @@ const HERO_ICONS: Record<string, string> = {
 
 const HERO_NAMES: Record<string, string> = {
   'ANA': 'Ana',
+  'ANRAN': 'Anran',
   'ASHE': 'Ashe',
   'BASTION': 'Bastion',
   'BAPTISTE': 'Baptiste',
   'BRIGITTE': 'Brigitte',
   'CASSIDY': 'Cassidy',
+  'DOMINA': 'Domina',
   'DOOMFIST': 'Doomfist',
   'DVA': 'D.Va',
   'ECHO': 'Echo',
+  'EMRE': 'Emre',
   'FREJA': 'Freja',
   'GENJI': 'Genji',
   'HANZO': 'Hanzo',
   'HAZARD': 'Hazard',
   'ILLARI' : 'Illari',
+  'JETPACKCAT': 'Jetpack Cat',
   'JUNKERQUEEN': 'Junker Queen',
   'JUNKRAT': 'Junkrat',
   'JUNO': 'Juno',
@@ -228,6 +276,7 @@ const HERO_NAMES: Record<string, string> = {
   'MAUGA': 'Mauga',
   'MEI': 'Mei',
   'MERCY': 'Mercy',
+  'MIZUKI': 'Mizuki',
   'MOIRA': 'Moira',
   'ORISA': 'Orisa',
   'PHARAH': 'Pharah',
@@ -242,6 +291,7 @@ const HERO_NAMES: Record<string, string> = {
   'SYMMETRA': 'Symmetra', 
   'TORBJORN': 'Torbjörn',
   'TRACER': 'Tracer',
+  'VENDETTA': 'Vendetta',
   'VENTURE': 'Venture',
   'WIDOWMAKER': 'Widowmaker',
   'WINSTON': 'Winston',
