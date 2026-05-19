@@ -548,14 +548,26 @@ function ingestGetInfo(res: any) {
   }
 
   if (state.inMatch) {
-    const heartbeatStale = state.inMatch && state.lastInProgressAt && (nowSec() - state.lastInProgressAt > INPROGRESS_STALE_SEC);
-    const pseudoChanged = state.inMatch && state.lastPseudoMatchId && pseudoId && (state.lastPseudoMatchId !== String(pseudoId));
+    const heartbeatStale =
+      !!state.lastInProgressAt &&
+      (now - state.lastInProgressAt > INPROGRESS_STALE_SEC);
 
-    const explicitEnd = !inProgress;
-    if (explicitEnd || heartbeatStale || pseudoChanged) {
+    if (heartbeatStale) {
       endMatchAndGoMenus();
     }
   }
+
+  console.log('[Stadium Debug]', {
+    gameType: state.gameType,
+    queueType: state.queueType,
+    gameModeId: state.gameModeId,
+    gameState,
+    pseudoId,
+    inProgress,
+    inMatch: state.inMatch,
+    nonMatchPolls,
+    lastInProgressAt: state.lastInProgressAt,
+  })
 
   scheduleUpdate();
 }
