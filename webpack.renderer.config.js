@@ -32,4 +32,10 @@ rendererConfig.plugins.push(new HtmlWebpackPlugin({
   inject: false
 }));
 
+rendererConfig.plugins.push(new HtmlWebpackPlugin({
+  template: './src/renderer/index.css',
+  filename: path.join(__dirname, './dist/renderer/index.css'),
+  inject: false
+}));
+
 module.exports = rendererConfig;

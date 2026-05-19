@@ -27,6 +27,7 @@
     "files": [
       "dist/**/*",
       "*.js",
+      "*.css",
       ".env",
       "*.html",
       "*.exe"

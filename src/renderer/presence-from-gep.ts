@@ -146,7 +146,7 @@ const MAP_NAMES: Record<string, string> = {
 };
 
 const MAP_ICONS: Record<string, string> = {
-  '91': 'anubis',
+  '91': '1_anubis',
   '212': '1_kings-row',
   '388': '1_watchpoint-gibraltar',
   '468': '1_numbani',
@@ -165,7 +165,7 @@ const MAP_ICONS: Record<string, string> = {
   '2018': '1_busan',
   '2087': '1_circuit-royale',
   '2161': '1_rialto',
-  '2193': 'paris',
+  '2193': '1_paris',
   '2360': '1_paraiso',
   '2628': '1_havana',
   '2795': '1_new-queen-street',
@@ -182,7 +182,7 @@ const MAP_ICONS: Record<string, string> = {
   '4439': '1_hanaoka',
   '4448': '1_throne-of-anubis',
   '4695': '1_thames-district',
-  "4702": "1_place-lacroix",
+  "4702": "1_place_lacroix",
   "4704": "1_redwood-dam",
   "4731": "1_ilios",
   "4735": "1_oasis",
@@ -232,6 +232,7 @@ const HERO_ICONS: Record<string, string> = {
   'REAPER': '0_reaper',
   'REINHARDT': '0_reinhardt',
   'ROADHOG': '0_roadhog',
+  'SIERRA': '0_sierra',
   'SIGMA': '0_sigma',
   'SOJOURN': '0_sojourn',
   'SOLDIER76': '0_soldier76',
@@ -284,6 +285,7 @@ const HERO_NAMES: Record<string, string> = {
   'REAPER': 'Reaper',
   'REINHARDT': 'Reinhardt',
   'ROADHOG': 'Roadhog',
+  'SIERRA': 'Sierra',
   'SIGMA': 'Sigma',
   'SOJOURN': 'Sojourn',
   'SOLDIER76': 'Soldier: 76',
@@ -301,7 +303,7 @@ const HERO_NAMES: Record<string, string> = {
   'ZENYATTA': 'Zenyatta'
 };
 
-const INPROGRESS_STALE_SEC = 8;
+const INPROGRESS_STALE_SEC = 20;
 
 function nowSec() { return Math.floor(Date.now() / 1000); }
 
@@ -491,6 +493,9 @@ function endMatchAndGoMenus() {
   hero = {};
 }
 
+let nonMatchPolls = 0;
+const NON_MATCH_POLLS_TO_END = 3;
+
 // NEW: normalize a getInfo() result into the same handler paths
 function ingestGetInfo(res: any) {
   const gi = res?.res?.game_info ?? res?.game_info ?? {};
@@ -519,15 +524,25 @@ function ingestGetInfo(res: any) {
   if (mapVal)    state.map = String(mapVal);
 
   const inProgress = String(gameState ?? '').toLowerCase() === 'match_in_progress';
+  const now = nowSec();
+
   if (inProgress) {
+    nonMatchPolls = 0;
+  }
+
+  if (inProgress) {
+    nonMatchPolls = 0;
     if (!state.inMatch) {
       state.inMatch = true;
       state.startedAt = nowSec();
     }
     state.lastInProgressAt = nowSec();
-    state.lastPseudoMatchId = pseudoId ? String(pseudoId) : null;
+    if (pseudoId) {
+      state.lastPseudoMatchId = String(pseudoId);
+    }
   } else {
-    if (state.inMatch) {
+    nonMatchPolls++;
+    if (state.inMatch && nonMatchPolls >= NON_MATCH_POLLS_TO_END) {
       endMatchAndGoMenus();
     }
   }

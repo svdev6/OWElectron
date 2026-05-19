@@ -1,48 +1,72 @@
-<div class="row">
-  <script defer src="renderer.js"></script>
-  </head><div class="row"></div>
-  <table class="span12">
-  <tbody>
-    <ul class="versions code">
-      <li class="electron-version"></li>
-    </ul>
-      <tr>
-          <td class="span1"><button id ='setRequiredFeaturesBtn' class="btn">setRequiredFeatures</button></td>
-          <td class="span1"><button id ='getInfoBtn' class="btn">getInfo</button></td>
-          <td class="span1"><button id ='toggleHeroStatsBtn' class="btn">Toggle Hero Stats</button></td>
-          <td class="span1"><button id ='createOSR' class="btn">Create OSR</button></td>
-          <td class="span1"><button id ='visibilityOSR' class="btn">Show all OSR</button></td>
-          <td class="span1"><button id ='updateHotkey' class="btn">update Hotkey</button></td>
-      </tr>
-      <script>
-   </script>
-     <script>
-      const changeOpacityValue = (element) => {
-        document.getElementById('opacityValue').value = element.value;
-      }
-      const animationDurationValue = (element) => {
-        document.getElementById('animationDuration').value = element.value;
-      }
-      window.app.initialize();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data:;"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overwatch RPC</title>
+    <link rel="stylesheet" href="index.css">
+    <script defer src="renderer.js"></script>
+</head>
+<body>
+  <div class="background-blur background-blur-1"></div>
+  <div class="background-blur background-blur-2"></div>
 
-    </script>
-  </tbody>
-  </table>
-</div>
-<br/>
-<div>
-  <h2>Log:</h2>
-  <div class="row">
-  <div class="span12">
-    <textarea id="TerminalTextArea"
-      style="border: 1px solid grey; width:100%; height: 200px;">
-    </textarea>
-    <td class="span1">
-      <button style="margin-top: 10px;" id='clearTerminalTextAreaBtn' class="btn">
-        Clean
-      </button>
-    </td>
-  </div>
-</div>
-</div>
-<br>
+  <main class="app-shell">
+    <section class="hero-card">
+      <div class="hero-left">
+        <p class="eyebrow">Overwolf + Discord Rich Presence</p>
+        <h1 class="hero-title">Overwatch RPC</h1>
+        <p class="hero-subtitle">A simple app to show your Overwatch status on Discord.</p>
+
+        <div class="status-pills">
+          <span class="status-pill" id="rpcStatusPill">Discord RPC Ready</span>
+          <span class="status-pill secondary" id="heroStatsStatusPill">Hero Stats Enabled</span>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="preview-card">
+          <p class="preview-label">Presence Preview</p>
+          <div class="preview-content">
+            <div class="preview-icon">OW</div>
+            <div>
+              <div class="preview-title" id="presencePreviewTitle">In Menus</div>
+              <div class="preview-state" id="presencePreviewState">Waiting for data...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="actions-card">
+      <h2 class="section-title">Quick Actions</h2>
+      <div class="actions-grid">
+        <button id="setRequiredFeaturesBtn" class="btn btn-primary">Set Required Features</button>
+        <button id="getInfoBtn" class="btn btn-secondary">Get Info</button>
+        <button id="toggleThemeBtn" class="btn btn-secondary">Switch to Purple</button>
+        <button id="toggleHeroStatsBtn" class="btn btn-secondary">Toggle Hero Stats</button>
+      </div>
+    </section>
+
+    <section class="content-grid">
+      <div class="panel-card terminal-card">
+        <div class="panel-header">
+          <div>
+            <h2 class="section-title">Live Logs</h2>
+            <p class="section-subtitle">Incoming GEP events and local app activity</p>
+          </div>
+          <button id="clearTerminalTextAreaBtn" class="btn btn-secondary">Clear Logs</button>
+        </div>
+        <pre id="TerminalTextArea" class="terminal-output"></pre>
+      </div>
+    </section>
+  </main>
+  <script>
+    window.app.initialize();
+  </script>
+</body>
+</html>
